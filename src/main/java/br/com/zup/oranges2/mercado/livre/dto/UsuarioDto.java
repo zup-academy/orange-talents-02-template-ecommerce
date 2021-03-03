@@ -2,12 +2,10 @@ package br.com.zup.oranges2.mercado.livre.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.util.Assert;
 
-import antlr.StringUtils;
+import br.com.zup.oranges2.mercado.livre.entity.SenhaLimpa;
 import br.com.zup.oranges2.mercado.livre.entity.Usuario;
 
 public class UsuarioDto {
@@ -24,6 +22,11 @@ public class UsuarioDto {
 		super();
 		this.email = email;
 		this.senha = senha;
+	}
+
+	@Deprecated
+	public UsuarioDto() {
+
 	}
 
 	@Override
