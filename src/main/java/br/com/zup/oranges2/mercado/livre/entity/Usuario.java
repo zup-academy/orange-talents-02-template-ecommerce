@@ -2,6 +2,7 @@ package br.com.zup.oranges2.mercado.livre.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,14 +26,17 @@ public class Usuario {
 
 	@NotBlank
 	@Email
+	@Column(unique = true)
 	private String email;
 
 	@NotBlank
 	@Length(min = 6)
+	@Column
 	private String senha;
 
-	//@NotNull
+	// @NotNull
 	@PastOrPresent
+	@Column
 	private LocalDateTime instanteCriacao;
 
 	@Deprecated
