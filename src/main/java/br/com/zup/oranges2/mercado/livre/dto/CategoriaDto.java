@@ -16,11 +16,10 @@ public class CategoriaDto {
 	@UniqueValue(domainClass = Categoria.class, fieldName = "nome")
 	private String nome;
 
-	@Positive
-	@ExistsId(domainClass = Categoria.class, fieldName = "idCategoriaMae")
+	@ExistsId(domainClass = Categoria.class, fieldName = "id")
 	private Long idCategoriaMae;
 
-	public CategoriaDto(@NotBlank String nome, @Positive Long idCategoriaMae) {
+	public CategoriaDto(@NotBlank String nome, Long idCategoriaMae) {
 		super();
 		this.nome = nome;
 		this.idCategoriaMae = idCategoriaMae;
@@ -28,8 +27,9 @@ public class CategoriaDto {
 
 	@Deprecated
 	public CategoriaDto() {
-		
+
 	}
+
 	@Override
 	public String toString() {
 		return "CategoriaDto [nome=" + nome + ", idCategoriaMae=" + idCategoriaMae + "]";
@@ -43,6 +43,22 @@ public class CategoriaDto {
 			categoria.setMae(categoriaMae);
 		}
 		return categoria;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public Long getIdCategoriaMae() {
+		return idCategoriaMae;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setIdCategoriaMae(Long idCategoriaMae) {
+		this.idCategoriaMae = idCategoriaMae;
 	}
 
 }
