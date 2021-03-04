@@ -24,6 +24,15 @@ public class Categoria {
 	public Categoria() {
 
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Categoria [id=" + id + ", nome=" + nome + ", categoriaMae=" + categoriaMae + "]";
+	}
+
+
 
 	public Categoria(@NotBlank String nome) {
 		super();
