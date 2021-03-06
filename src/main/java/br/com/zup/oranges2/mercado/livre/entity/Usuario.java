@@ -51,6 +51,31 @@ public class Usuario implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
 
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public LocalDateTime getInstanteCriacao() {
+		return instanteCriacao;
+	}
+
+	public List<Perfil> getPerfis() {
+		return perfis;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
