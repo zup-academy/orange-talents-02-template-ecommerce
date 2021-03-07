@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.zup.oranges2.mercado.livre.repository.UsuarioRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -27,11 +30,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 
-//	@Autowired
-//	private TokenService tokenService;
+	@Autowired
+	private TokenService tokenService;
 
-//	@Autowired
-//	private UsuarioRepository usuarioReository;
+	@Autowired
+	private UsuarioRepository usuarioReository;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,7 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.permitAll()
 //		.antMatchers(HttpMethod.DELETE, "usuarios/*").permitAll();
 				.anyRequest().authenticated().and().csrf().disable().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioReository), UsernamePasswordAuthenticationFilter.class);
 
 	}
 

@@ -19,4 +19,12 @@ public class TokenDto {
 		return tipo;
 	}
 
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 }
