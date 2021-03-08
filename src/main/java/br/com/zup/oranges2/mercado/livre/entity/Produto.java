@@ -67,21 +67,19 @@ public class Produto {
 		this.quantidade = quantidade;
 		this.descricao = descricao;
 		this.categoria = categoria;
-		this.caracteristicas.addAll(caracteristicas.stream()
-				.map(caracteristica -> caracteristica.toModel(this)).collect(Collectors.toSet()));
+		this.caracteristicas.addAll(caracteristicas.stream().map(caracteristica -> caracteristica.toModel(this))
+				.collect(Collectors.toSet()));
 
 		Assert.isTrue(this.caracteristicas.size() >= 3, "Todo produto precisa de no mínimo três características");
 
 	}
 
-	
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", nome=" + nome + ", valor=" + valor + ", quantidade=" + quantidade
 				+ ", descricao=" + descricao + ", categoria=" + categoria + ", dono=" + dono + ", caracteristicas="
 				+ caracteristicas + "]";
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -106,6 +104,38 @@ public class Produto {
 		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public Usuario getDono() {
+		return dono;
+	}
+
+	public Set<CaracteristicaProduto> getCaracteristicas() {
+		return caracteristicas;
 	}
 
 }

@@ -1,5 +1,9 @@
 package br.com.zup.oranges2.mercado.livre.dto;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -7,15 +11,20 @@ import javax.validation.constraints.NotNull;
 
 import br.com.zup.oranges2.mercado.livre.entity.Produto;
 
+@Entity
 public class CaracteristicaProduto {
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	@NotBlank
 	private String nome;
-	
+
 	@NotBlank
 	private String descricao;
-	
-	@NotNull 
+
+	@NotNull
 	@Valid
 	@ManyToOne
 	private Produto produto;
@@ -25,6 +34,10 @@ public class CaracteristicaProduto {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.produto = produto;
+	}
+
+	@Deprecated
+	public CaracteristicaProduto() {
 	}
 
 	@Override
@@ -52,8 +65,4 @@ public class CaracteristicaProduto {
 		return true;
 	}
 
-	
-	
-
-	
 }

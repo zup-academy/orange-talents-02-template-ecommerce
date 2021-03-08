@@ -38,9 +38,9 @@ public class ProdutoController {
 	public String cadastraProduto(@RequestBody @Valid ProdutoDto produtoDto) {
 		
 		Usuario dono = usuarioRepository.findByEmail("dayana@email.com.br").get();
-		Produto produto = produtoDto.toModel(manager, dono);
-		manager.persist(produto);
-		return produto.toString();
+		Produto novoproduto = produtoDto.toModel(manager, dono);
+		manager.persist(novoproduto);
+		return novoproduto.toString();
 	}
 	
 	

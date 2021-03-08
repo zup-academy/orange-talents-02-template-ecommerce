@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -16,10 +17,12 @@ import br.com.zup.oranges2.mercado.livre.entity.Categoria;
 import br.com.zup.oranges2.mercado.livre.entity.Produto;
 import br.com.zup.oranges2.mercado.livre.entity.Usuario;
 import br.com.zup.oranges2.mercado.livre.validation.ExistsId;
+import br.com.zup.oranges2.mercado.livre.validation.UniqueValue;
 
 public class ProdutoDto {
 
 	@NotBlank
+	@UniqueValue(domainClass = Produto.class, fieldName = "nome")
 	private String nome;
 
 	@NotNull
@@ -54,8 +57,8 @@ public class ProdutoDto {
 	}
 
 	public Produto toModel(EntityManager manager, Usuario dono) {
-		Categoria categoria = manager.find(Categoria.class, idCategoria);
-		return new Produto(nome, valor, quantidade, descricao, categoria, dono, caracteristicas);
+		Optional<Categoria> categoria = Optional.ofNullable(manager.find(Categoria.class, idCategoria));
+		return new Produto(this.nome, this.valor, this.quantidade, this.descricao, categoria.get(),dono, this.caracteristicas);
 	}
 
 	@Override
@@ -74,5 +77,31 @@ public class ProdutoDto {
 		
 		return false;
 	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public Long getIdCategoria() {
+		return idCategoria;
+	}
+
+	public List<CaracteristicaDto> getCaracteristicas() {
+		return caracteristicas;
+	}
+	
+	
 
 }
