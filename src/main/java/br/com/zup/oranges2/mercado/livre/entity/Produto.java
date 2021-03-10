@@ -60,8 +60,8 @@ public class Produto {
 	private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
 
 	public Produto(@NotBlank String nome, @NotNull @Positive BigDecimal valor, @Positive int quantidade,
-			@NotBlank @Size(max = 1000) String descricao, @NotNull @Valid Categoria categoria,
-			@NotNull @Valid Usuario dono, @Size(min = 3) @Valid Collection<CaracteristicaDto> caracteristicas) {
+			@NotBlank @Size(max = 1000) String descricao, @NotNull @Valid Categoria categoria, @NotNull @Valid Usuario dono,
+			@Size(min = 3) @Valid Collection<CaracteristicaDto> caracteristicas) {
 		this.nome = nome;
 		this.valor = valor;
 		this.quantidade = quantidade;

@@ -58,7 +58,8 @@ public class ProdutoDto {
 
 	public Produto toModel(EntityManager manager, Usuario dono) {
 		Optional<Categoria> categoria = Optional.ofNullable(manager.find(Categoria.class, idCategoria));
-		return new Produto(this.nome, this.valor, this.quantidade, this.descricao, categoria.get(),dono, this.caracteristicas);
+		return new Produto(this.nome, this.valor, this.quantidade, this.descricao, categoria.get(), dono,
+				this.caracteristicas);
 	}
 
 	@Override
@@ -67,14 +68,19 @@ public class ProdutoDto {
 				+ descricao + ", idCategoria=" + idCategoria + ", caracteristicas=" + caracteristicas + "]";
 	}
 
+	@Deprecated
+	public ProdutoDto() {
+
+	}
+
 	public boolean temCaracteristicasIguais() {
 		HashSet<String> nomesIguais = new HashSet<>();
-		for(CaracteristicaDto caracteristica : caracteristicas) {
-			if(!nomesIguais.add(caracteristica.getNome())) {
+		for (CaracteristicaDto caracteristica : caracteristicas) {
+			if (!nomesIguais.add(caracteristica.getNome())) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -101,7 +107,5 @@ public class ProdutoDto {
 	public List<CaracteristicaDto> getCaracteristicas() {
 		return caracteristicas;
 	}
-	
-	
 
 }
