@@ -12,6 +12,6 @@ import br.com.zup.oranges2.mercado.livre.entity.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	public Optional<Usuario> findByEmail(@Email String Email);
+	public Optional<Usuario> findByEmail(String Email);
 
 }
