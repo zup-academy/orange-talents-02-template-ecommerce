@@ -1,4 +1,4 @@
-package br.com.zup.oranges2.mercado.livre.security;
+package br.com.zup.oranges2.mercado.livre.compartilhado;
 
 import java.util.Collection;
 import java.util.List;
@@ -67,3 +67,4 @@ public class UsuarioLogado implements UserDetails {
 		return usuario;
 	}
 }
+
