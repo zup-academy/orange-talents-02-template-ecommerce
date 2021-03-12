@@ -25,10 +25,6 @@ public class CategoriaController {
 		Categoria categoria = categoriaDto.toModel(manager);
 		manager.persist(categoria);
 		return categoria.toString();
-		
-		
-		
-		
 	}
 
 }

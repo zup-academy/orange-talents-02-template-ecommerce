@@ -2,7 +2,6 @@ package br.com.zup.oranges2.mercado.livre.dto;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 
 import org.springframework.util.Assert;
 

@@ -4,8 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.zup.oranges2.mercado.livre.entity.SenhaLimpa;
 import br.com.zup.oranges2.mercado.livre.entity.Usuario;
 
 public class UsuarioDto {
@@ -42,9 +42,8 @@ public class UsuarioDto {
 		return senha;
 	}
 
-	public Usuario toUsuario() {
-
-		return new Usuario(email, new SenhaLimpa(senha));
+	public Usuario toUsuario(PasswordEncoder passwordEncoder) {
+		return new Usuario(email, passwordEncoder.encode(senha));
 	}
 
 }

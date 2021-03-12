@@ -22,8 +22,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.zup.oranges2.mercado.livre.repository.UsuarioRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -31,65 +34,62 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UsersService usersService;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	@Autowired
-	private TokenManager tokenManager;
+	private TokenService tokenService;
 
-	
-	private static final Logger log = LoggerFactory
-			.getLogger(SecurityConfiguration.class);
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(this.usersService).passwordEncoder(passwordEncoder());
+	}
+
 	@Override
 	@Bean(BeanIds.AUTHENTICATION_MANAGER)
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/produtos/{id:[0-9]+}").permitAll()
-				.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
-				.antMatchers("/api/auth/**").permitAll()
-				.anyRequest().authenticated()
-			.and()
-				.cors()
-			.and()
-				.csrf().disable()
-			.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-				.addFilterBefore(new JwtAuthenticationFilter(tokenManager, usersService), 
+		http.authorizeRequests()
+		.antMatchers(HttpMethod.GET, "/produtos/{id:[0-9]+}").permitAll()
+		.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
+		.antMatchers("/api/auth").permitAll()
+		.anyRequest().authenticated()
+		.and()
+		.cors()
+		.and().csrf().disable()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and()
+		.addFilterBefore(new JwtAuthenticationFilter(tokenService, usuarioRepository),
 						UsernamePasswordAuthenticationFilter.class)
-			.exceptionHandling()
-				.authenticationEntryPoint(new JwtAuthenticationEntryPoint());
-				
+				.exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint());
 	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(this.usersService)
-			.passwordEncoder(new BCryptPasswordEncoder());
-	}
-	
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/**.html",  "/v2/api-docs", "/webjars/**", 
-				"/configuration/**", "/swagger-resources/**", "/css/**", "/**.ico", "/js/**");
+		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**",
+				"/swagger-resources/**", "/css/**", "/**.ico", "/js/**");
 	}
-	
+
 	private static class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 		private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
-		
+
 		@Override
 		public void commence(HttpServletRequest request, HttpServletResponse response,
 				AuthenticationException authException) throws IOException, ServletException {
-			
+
 			logger.error("Um acesso não autorizado foi verificado. Mensagem: {}", authException.getMessage());
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Você não tem autororização para acessar esse recurso.");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+					"Você não tem autororização para acessar esse recurso.");
 		}
 	}
 }

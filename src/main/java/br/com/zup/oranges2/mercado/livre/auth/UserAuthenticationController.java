@@ -1,4 +1,4 @@
-package br.com.zup.oranges2.mercado.livre.security;
+package br.com.zup.oranges2.mercado.livre.auth;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.zup.oranges2.mercado.livre.security.TokenService;
+
 @RestController
 @RequestMapping("/api/auth")
 public class UserAuthenticationController {
@@ -22,7 +24,7 @@ public class UserAuthenticationController {
 	private AuthenticationManager authManager;
 	
 	@Autowired
-	private TokenManager tokenManager;
+	private TokenService tokenService;
 	
 	private static final Logger log = LoggerFactory
 			.getLogger(UserAuthenticationController.class);
@@ -30,15 +32,15 @@ public class UserAuthenticationController {
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> authenticate(@RequestBody LoginInputDto loginInfo) {
+	public ResponseEntity<TokenDto> authenticate(@RequestBody LoginInputDto loginInfo) {
 	
 		UsernamePasswordAuthenticationToken authenticationToken = loginInfo.build();
 
 		try {
 			Authentication authentication = authManager.authenticate(authenticationToken); 			
-			String jwt = tokenManager.generateToken(authentication);
+			String jwt = tokenService.generateToken(authentication);
 			
-			return ResponseEntity.ok(jwt);
+			return ResponseEntity.ok(new TokenDto(jwt, "Bearer "));
 		
 		} catch (AuthenticationException e) {
 			log.error("[Autenticacao] {}",e);

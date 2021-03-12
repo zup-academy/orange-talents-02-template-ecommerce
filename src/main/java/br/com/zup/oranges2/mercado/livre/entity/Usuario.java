@@ -109,11 +109,13 @@ public class Usuario implements UserDetails {
 
 	}
 
-	public Usuario(@NotBlank @Email String email, @Valid @NotNull SenhaLimpa senhaLimpa) {
+	
+	//retirei o objeto senhaLimpa e utilizei uma String;
+	public Usuario(@NotBlank @Email String email, @Valid @NotNull String senha) {
 		Assert.isTrue(StringUtils.hasLength(email), "O email não pode ser em branco");
-		Assert.notNull(senhaLimpa, "O objeto senha limpa não pode ser nulo");
+		Assert.notNull(senha, "A senha senha limpa não pode ser nulo");
 		this.email = email;
-		this.senha = senhaLimpa.hash();
+		this.senha = senha;
 		this.instanteCriacao = LocalDateTime.now();
 	}
 
