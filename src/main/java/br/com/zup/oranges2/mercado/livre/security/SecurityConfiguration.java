@@ -34,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UsersService usersService;
+	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 

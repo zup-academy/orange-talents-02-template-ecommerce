@@ -20,11 +20,11 @@ public class CategoriaController {
 	
 	@PostMapping("/categorias")
 	@Transactional
-	public String cadastraCategoria(@RequestBody @Valid CategoriaDto categoriaDto) {
+	public CategoriaResponse cadastraCategoria(@RequestBody @Valid CategoriaDto categoriaDto) {
 		
 		Categoria categoria = categoriaDto.toModel(manager);
 		manager.persist(categoria);
-		return categoria.toString();
+		return new CategoriaResponse(categoria);
 	}
 
 }
